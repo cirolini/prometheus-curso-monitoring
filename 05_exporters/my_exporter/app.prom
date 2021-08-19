@@ -1,0 +1,6 @@
+# HELP requests_total Description of counter
+# TYPE requests_total counter
+requests_total 4.0
+# HELP requests_created Description of counter
+# TYPE requests_created gauge
+requests_created 1.616434823242496e+09
