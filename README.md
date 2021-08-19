@@ -41,7 +41,7 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 1. [pushgateway](05_exporters/04_pushgateway.md)
 1. [blackbox_exporter](05_exporters/05_blackbox_exporter.md)
 1. [cadvisor](05_exporters/06_cadivisor.md)
-1. [Criando o seu Exporter](05_exporter/07_escrevendo_exporters.md)
+1. [Criando o seu Exporter](05_exporters/07_escrevendo_exporters.md)
 
 ### Alerting
 1. [Criando seu primeiro alerta](06_alerting/01_criando_alertas.md)
@@ -62,5 +62,5 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 
 ### Conclusão
 1. [Modelos de monitoração](/09_conclusion/01_modelos_de_monitoracao.md)
-1. [Alertando sobre os sintomas (Alert on the user experience)](/09_conclusion/02_alerting_on_sintoms.md)
+1. [Alertando sobre os sintomas (Alert on the user experience)](/09_conclusion/02_alerting_on_sitoms.md)
 1. [Conclusão](/09_conclusion/03_conclusion.md)

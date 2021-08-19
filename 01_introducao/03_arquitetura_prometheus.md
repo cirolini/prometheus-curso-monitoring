@@ -1,4 +1,4 @@
- # Arquitetura do Prometheus
+# Arquitetura do Prometheus
 
 Como vimos antes o Prometheus é composto de uma série de ferramentas que se comunicam para gerar estatísticas e métricas para os mais diversos tipos de serviços e aplicações.
 
