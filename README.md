@@ -2,33 +2,33 @@
 
 Esse curso ensina como usar o Prometheus como uma ferramenta integrada de monitoração, entender seus conceitos, usar grande parte de seu ecossistema, e ainda usar o Grafana para gerar dashboards.
 
-Vamos cobrir um grande numero de tópicos, todos eles com exemplos práticos. Vamos falar sobre a instalação tanto em servidores físicos quando em Kubernetes. Falar sobre como fazer consultas que tragam informações relevantes, como gerenciar alertas, até mesmo como prever o futuro.
+Vamos cobrir um grande número de tópicos, todos eles com exemplos práticos. Vamos falar sobre a instalação tanto em servidores físicos quando em Kubernetes. Falar sobre como fazer consultas que tragam informações relevantes, como gerenciar alertas, até mesmo como prever o futuro.
 
-Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim vermos alguns aspectos avançados e ainda entender alguns conceitos sobre a monitoração e alertas.
+Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim vamos ver alguns aspectos avançados e ainda entender alguns conceitos sobre a monitoração e alertas.
 
 ## Sumário
 
 ### Introdução
 1. [Introdução](01_introducao/01_introducao.md)
 1. [Apresentação do Instrutor](01_introducao/02_apresentacao_intrutor.md)
-1. [Arquitetura do PROMETHEUS](01_introducao/03_arquitetura_prometheus.md)
+1. [Arquitetura do Prometheus](01_introducao/03_arquitetura_prometheus.md)
 1. [Conceitos do Alertmanager](01_introducao/04_alertmanager.md)
 
 ### Instalando o ambiente
 1. [Instalando o Prometheus no Linux](02_install_prometheus/01_install_prometheus_linux.md)
-1. [Instalando o Alertmanager no linux](02_install_prometheus/02_install_alertmanager_linux.md)
-1. [Instalando o Grafana no linux](02_install_prometheus/03_install_grafana.md)
+1. [Instalando o Alertmanager no Linux](02_install_prometheus/02_install_alertmanager_linux.md)
+1. [Instalando o Grafana no Linux](02_install_prometheus/03_install_grafana.md)
 1. [Criando os primeiros alertas](02_install_prometheus/04_criando_alertas.md)
-1. [Configuraçoes avançadas do Prometheus](02_install_prometheus/05_prometheus_confs_avancadas.md)
-1. [Criando todo ambiente no docker](02_install_prometheus/06_docker.md)
+1. [Configurações avançadas do Prometheus](02_install_prometheus/05_prometheus_confs_avancadas.md)
+1. [Criando todo ambiente no Docker](02_install_prometheus/06_docker.md)
 
 ### Prometheus Conceitos
 1. [Modelo de dados](03_conceitos/01_modelo_de_dados.md)
 1. [Tipos de Métricas](03_conceitos/02_tipos_de_metricas.md)
-1. [JOBS e INSTANCES](03_conceitos/03_jobs_instances.md)
+1. [Jobs e Instances](03_conceitos/03_jobs_instances.md)
 
-### Quering Prometheus
-1. [Basico](04_quering/01_basico.md)
+### Querying Prometheus
+1. [Básico](04_quering/01_basico.md)
 1. [Operators](04_quering/02_operator.md)
 1. [Funções](04_quering/03_functions.md)
 1. [Recording Rules](04_quering/04_recording_rules.md)
