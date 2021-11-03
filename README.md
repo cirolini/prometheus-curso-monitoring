@@ -59,6 +59,7 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 ### Aspectos Avançados
 1. [Federation](/08_advanced_topics/01_federation.md)
 1. [Management API](/08_advanced_topics/02_management_api.md)
+1. [Baselines](/08_advanced_topics/03_baselines.md)
 
 ### Conclusão
 1. [Modelos de monitoração](/09_conclusion/01_modelos_de_monitoracao.md)
