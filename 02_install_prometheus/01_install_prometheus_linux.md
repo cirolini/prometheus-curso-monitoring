@@ -1,6 +1,6 @@
 # Instalando o Prometheus no Linux
 
-O processo de instalação do Prometheus é bastante simples, um único binário ja tem tudo que é necessário para rodar uma instalação mais simples. Mas primeiro precisamos ter um sistema linux funcionando, caso você ja tenha um ótimo, pode pular esse passo inicial, caso ainda não tenha eu recomendo fortemente o uso do vagrant e do virtualbox, ambos softwares gratuitos que vc pode usar para ter um linux rápido e funcional no seu computador.
+O processo de instalação do Prometheus é bastante simples, um único binário já tem tudo que é necessário para rodar uma instalação mais simples. Mas primeiro precisamos ter um sistema Linux funcionando, caso você já tenha um ótimo, pode pular esse passo inicial, caso ainda não tenha eu recomendo fortemente o uso do vagrant e do virtualbox, ambos softwares gratuitos que você pode usar para ter um Linux rápido e funcional no seu computador.
 
 ## Criando o ambiente
 
@@ -13,7 +13,7 @@ vagrant init ubuntu/trusty64
 vim Vagrantfile
 ```
 
-Copiar o conteudo vo arquivo [Vagrantfile](vagrant/Vagrantfile), isso vai inicilizar uma VM Ubuntu e ja liberar as portas necessarias para podermos acessar as interfaces do Prometheus diretamente no nosso navegador.
+Copiar o conteúdo do arquivo [Vagrantfile](vagrant/Vagrantfile), isso vai inicializar uma VM Ubuntu e já liberar as portas necessárias para podermos acessar as interfaces do Prometheus diretamente no nosso navegador.
 
 Depois:
 ```
@@ -23,7 +23,7 @@ vagrant ssh
 
 ## Download do Prometheus
 
-Agora você precisa entrar na pagina de [downloads](https://github.com/prometheus/prometheus/releases/) do Prometheus e pegar a ultima versão para o linux, atualmente é assim:
+Agora você precisa entrar na página de [downloads](https://github.com/prometheus/prometheus/releases/) do Prometheus e pegar a última versão para o linux, atualmente é assim:
 
 ```
 wget https://github.com/prometheus/prometheus/releases/download/v2.23.0/prometheus-2.23.0.linux-amd64.tar.gz
@@ -31,23 +31,23 @@ tar xvfz prometheus-*.tar.gz
 cd prometheus-*
 ```
 
-Para garantir que ele esta funcionando corretamente, execute `prometheus --help` que vai exibir as informações de ajuda para iniciar o sistema:
+Para garantir que ele está funcionando corretamente, execute `prometheus --help` que vai exibir as informações de ajuda para iniciar o sistema:
 
 ```
 ./prometheus --help
 ```
 
-Podemos iniciarmos o Prometheus utilizando o arquivo de configuração padrão que ja vem com o pacote de instalação:
+Podemos iniciar o Prometheus utilizando o arquivo de configuração padrão que já vem com o pacote de instalação:
 
 ```
 ./prometheus --config.file=prometheus.yml
 ```
 
-Algumas mensagens importantes aparecem na tela, como por exemplo que não configuramos um período de retenção e ele colocou no valor default de 15 dias. Aparecem ainda a versão do Prometheus, do Go, e ainda informações do host. TSDB é uma abreviação para Time Series Database.
+Algumas mensagens importantes aparecem na tela, como por exemplo que não configuramos um período de retenção e ele colocou no valor default de 15 dias. Aparecem ainda a versão do Prometheus, do Go, e ainda informações do host. `TSDB` é uma abreviação para Time Series Database.
 
 Mais algumas informações como carregando arquivo de configuração, os tempos que ele demorou para fazer cada operação, e finalmente que o serviço foi iniciado.
 
-Depois disso basta abrir o seu navegador local preferido em http://localhost:9090/ e ja pode começar a navegar por algumas métricas, ja que a configuração padrão faz com que o Prometheus ja colete as métricas dele mesmo.
+Depois disso basta abrir o seu navegador local preferido em http://localhost:9090/ e já pode começar a navegar por algumas métricas, já que a configuração padrão faz com que o Prometheus já colete as métricas dele mesmo.
 
 ```
  promhttp_metric_handler_requests_total
@@ -62,7 +62,7 @@ Depois disso basta abrir o seu navegador local preferido em http://localhost:909
 
 ## Configurando do jeito certo
 
-Bom, mas não podemos deixar o prometheus rodando dessa forma, precisamos corrigir algumas questões de segurança e deixar o serviço do prometheus executando em background, que ele inicialize com o sistema, etc.
+Bom, mas não podemos deixar o Prometheus rodando dessa forma, precisamos corrigir algumas questões de segurança e deixar o serviço do Prometheus executando em background, que ele inicialize com o sistema, etc.
 
 Primeiro passo vamos criar um usuário próprio para o Prometheus, por uma questão de segurança é melhor que ele seja executado sobre seu próprio usuário sem permissões exageradas de um usuário root por exemplo:
 
@@ -104,14 +104,14 @@ sudo chown -R prometheus:prometheus /etc/prometheus/consoles
 sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
 ```
 
-Vamos copiar também o arquivo de configuração do prometheus:
+Vamos copiar também o arquivo de configuração do Prometheus:
 
 ```
 sudo cp prometheus.yml /etc/prometheus/
 sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
 ```
 
-Agora vamos configurar o prometheus para ser executado através do systemd.
+Agora vamos configurar o Prometheus para ser executado através do systemd.
 
 ```
 sudo vim /etc/systemd/system/prometheus.service
@@ -157,4 +157,4 @@ Agora para ver os logs podemos ver assim:
 sudo journalctl -u prometheus --since today
 ```
 
-Bom, agora ja temos o prometheus rodando no nosso servidor Linux e monitorando a si mesmo. Proximo passo vamos ver como fazer o prometheus funcionar no docker.
+Bom, agora já temos o Prometheus rodando no nosso servidor Linux e monitorando a si mesmo. No próximo passo vamos ver como fazer o Prometheus funcionar no Docker.
