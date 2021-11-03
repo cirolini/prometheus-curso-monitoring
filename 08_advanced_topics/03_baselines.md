@@ -41,4 +41,4 @@ Com isso temos a média de numero de requestes das ultimas 8 semanas desse exato
 
 ![Baseline_](/08_advanced_topics/images/baseline.png "Baseline")
 
-Esse gráfico mostra que baseado em uma média das ultimas 8 semanas, o meu acesso a essa API esta crescendo.
+A linha verde é o valor real, e a amarela é a baseline. Esse gráfico mostra que baseado em uma média das ultimas 8 semanas, o meu acesso a essa API esta crescendo. 
