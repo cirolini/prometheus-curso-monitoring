@@ -10,7 +10,7 @@ Sim, eu sei que existem os `avg_over_time` e o `quantile_over_time` entre outros
 
 Isso é uma baseline, mas para dados sazonais não tem muita eficiência.
 
-## Metodo de criar uma baseline
+## Método de criar uma baseline
 
 O prometheus tem uma feature que é o `offset`, a capacidade de olhar uma métrica em um periodo de tempo atras. Por exemplo, `prometheus_http_requests_total offset 1d` vai me dizer a mesma métrica só que com o valor de 1 dia atras. O valor que vamos usar no offset para variar tbm, pode ser minutos `15m`, ou anos, `2y`.
 
