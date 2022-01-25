@@ -11,7 +11,7 @@ Todos os exemplos aqui são feitos usando a query language do Prometheus e os gr
 # The Four Golden Signals
 No livro do Google sobre SRE, um dos capítulos trata sobre 4 principais sinais que deveríamos monitorar em qualquer aplicação.
 
-##Latência
+## Latência
 
 Uma métrica impacta diretamente os nossos usuários, um sistema lento pode ser pior que um sistema não funcionando em alguns casos.
 As formas mais comuns de visualizar isso no Prometheus é usar a query function histogram_quantile(), que vai nos dar uma média de tempo das requisições de uma aplicação sob um determinado percentil.
@@ -32,7 +32,7 @@ Um alerta para esse tipo de monitoração poderia ser algo como:
 
 Essa monitoração gera um alerta caso a média do tempo de respostas de 95 percentil das requisições forem maior de 400 milissegundos por 15 minutos com uma criticidade moderada.
 
-##Tráfego
+## Tráfego
 
 A quantidade de trabalho que esta sendo feito, no caso de aplicações web, uma das métricas pode ser por exemplo o número de requisições que o webserver esta atendendo, ou para algum serviço de streaming os usuários simultâneos, ou ainda a quantidade de bytes enviados.
 
