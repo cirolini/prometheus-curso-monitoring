@@ -1,4 +1,6 @@
-Primeiro vamos entender um pouco do Alertmanager e para que ele serve. Os alertas no Prometheus são divididos em duas partes, as regras dos alertas são feitas no Prometheus que envia os sinais de alertas para o Alertmanager, que funciona para administrar esses alertas incluindo opções como silenciar os alertas, agrega-los ou enviar eles para algum outro sistema de notificação como email, slack, Pagerdutty ou similares.
+# Conceitos do Alertmanager
+
+Primeiro vamos entender um pouco do Alertmanager e para que ele serve. Os alertas no Prometheus são divididos em duas partes, as regras dos alertas são feitas no Prometheus que envia os sinais de alertas para o Alertmanager, que funciona para administrar esses alertas incluindo opções como silenciar os alertas, agrega-los ou enviar eles para algum outro sistema de notificação como email, Slack, PagerDuty, Microsoft Teams, Discord, Telegram ou similares. A lista de integrações nativas cresceu bastante com o tempo, e para o que não tem integração pronta sempre existe o webhook.
 
 Vamos aos principais conceitos do Alertmanager:
 

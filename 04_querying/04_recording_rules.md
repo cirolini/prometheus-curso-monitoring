@@ -1,4 +1,4 @@
-# Recoding Rules
+# Recording Rules
 
 Muitas vezes as querys que precisamos fazer podem ser muito pesadas e podem exigir que o prometheus faça muito processamento dependendo do numero de funções ou operações que utilizamos e também da quantidade de dados que vamos processar.
 

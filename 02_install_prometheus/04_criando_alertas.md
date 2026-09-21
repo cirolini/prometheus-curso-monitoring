@@ -52,3 +52,5 @@ Agora podemos ver na pagina do alertmanager o alerta acontecendo. Podemos inclus
 ![prom_alerts](images/prom_alerts.png "Prometheus Alerts")
 
 ![alertmanager](images/alertmanager.png "Alertmanager")
+
+> ⚠️ **Screenshots para refazer.** Interfaces do Prometheus 2 e do Alertmanager 0.21.

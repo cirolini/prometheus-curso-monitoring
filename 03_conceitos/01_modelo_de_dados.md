@@ -10,6 +10,19 @@ Os metrics names podem conter labels, e esse é um recurso especialmente util, s
 
 Por exemplo, usando a metric name acima, podemos criar as labels: http_requests_total{method="GET", handler="/messages"}, que significa que esse grupo de métricas é referente a requisições do tipo GET e que foram atendidas pelo /messages. Com isso conseguimos individualizar essa métricas para ter valores mais específicos, mas se quisermos em algum momento agrupar ou somar todas as http_requests_total também podemos fazer isso de forma fácil.
 
+## Nomes em UTF-8
+
+Até o Prometheus 2 os nomes de métrica e de label eram restritos a letras, números, underline e dois pontos. No Prometheus 3 isso abriu: nomes podem usar UTF-8. Isso resolve principalmente a vida de quem traz métricas de outros mundos (OpenTelemetry, por exemplo), onde `http.server.request.duration` com pontos é o normal.
+
+O preço é que um nome com caractere especial não pode mais ser escrito solto na consulta, precisa ir entre aspas dentro das chaves:
+
+```
+{"http.server.request.duration"}
+sum({"minha.metrica.total"})
+```
+
+Na prática, para métricas que você mesmo cria, continua valendo a recomendação de sempre: use `snake_case` e viva em paz. O UTF-8 está ali para quando você não tem escolha.
+
 ## Best practices
 
 Uma boa pratica nos metrics names é usar prefixos que possam indentificar a quem a métrica pertence, como o nome da aplicação, ou métricas genéricas podem conter um nome mais amplo fazendo referencia ao que elas pertencem, exemplos:

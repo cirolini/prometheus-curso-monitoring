@@ -1,4 +1,4 @@
-# Criando seu primeito exporter
+# Criando seu primeiro exporter
 
 Em alguns casos você ja vai ter uma aplicação e quer exportar métricas dela diretamente pela própria aplicação. Aqui vamos desenvolver uma aplicação simples em python usando o Flask que é um minimal framework para desenvolvimento de aplicações web em uma aplicação onde poderemos demonstrar como criar métricas para o prometheus pode ser simples.
 
@@ -15,7 +15,7 @@ def hello_world():
     return 'Hello, World!'
 ```
 
-Para executar essa aplicação vamos criar um virtualenv, `virtualenv env`, e depois ativar o virtualenv, `source env/bin/activate`.
+Para executar essa aplicação vamos criar um ambiente virtual, `python3 -m venv env`, e depois ativar ele, `source env/bin/activate`. O `venv` já vem junto com o Python, não precisa instalar nada antes.
 
 Vamos instalar o flask:
 
@@ -112,15 +112,25 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
 })
 ```
 
-Aqui ainda vamos precisar instalar mais o uwsgi:
+Para servir isso basta o servidor de desenvolvimento do próprio Flask:
 
 ```
-pip install uwsgi
-uwsgi --http 127.0.0.1:5000 --wsgi-file app.py --callable app
-````
+flask run
+```
 
-Acessando as paginas conseguimos ver as métricas e e gerar estatísticas acessando a pagina inicial. Ainda na biblioteca do python tem muitas outras métricas como Histogram e também outras formas de exportar as métricas como pushgateway.
+A lição antiga mandava instalar o `uwsgi` aqui. Pode pular: o `pip install uwsgi` compila código C na hora e falha com frequência em Python recente e no macOS. Se você quiser um servidor de produção de verdade, o `gunicorn` instala sem compilar nada:
+
+```
+pip install gunicorn
+gunicorn --bind 0.0.0.0:5000 --workers 1 app:app
+```
+
+Uma pegadinha do `--workers`: o `prometheus_client` guarda os contadores na memória do processo. Com várias workers, cada scrape cai numa delas e você vê um pedaço do número. Para rodar multi-worker existe o [modo multiprocess](https://prometheus.github.io/client_python/multiprocess/) da biblioteca — no lab deixamos uma worker só, que é o suficiente para aprender.
+
+Acessando as paginas conseguimos ver as métricas e gerar estatísticas acessando a pagina inicial. Ainda na biblioteca do python tem muitas outras métricas como Histogram e também outras formas de exportar as métricas como pushgateway.
 
 A documentação é bastante completa e ajuda bastante na hora de fazer a aplicação.
 
 https://github.com/prometheus/client_python
+
+> Se quiser ver tudo isso junto e já funcionando, o lab tem uma versão dessa aplicação pronta em [`labs/app/`](../labs/app/), com os quatro tipos de métrica do módulo 03. Ela sobe com `make up` e o Prometheus já coleta dela.

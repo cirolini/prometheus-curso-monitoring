@@ -103,9 +103,9 @@ histogram_quantile(0.9,
 )
 ```
 
-## Sumary
+## Summary
 
-Sumary são muito similares aos histogram, server para contabilizar tempos de respostas ou tamanhos das requisições e também servem para verificar os percentils de valores. A grande diferença é que os summary os quantiles não são cumulativos, e se são processados na aplicação/cliente. Então, se vc deseja saber o percentil de um determinado valor pode buscar a metrica diretamente usando o label do quantile.
+Summary são muito similares aos histogram, server para contabilizar tempos de respostas ou tamanhos das requisições e também servem para verificar os percentils de valores. A grande diferença é que os summary os quantiles não são cumulativos, e se são processados na aplicação/cliente. Então, se vc deseja saber o percentil de um determinado valor pode buscar a metrica diretamente usando o label do quantile.
 
 
 ```
@@ -119,3 +119,31 @@ prometheus_rule_evaluation_duration_seconds_count 1.112293682e+09
 ```
 
 Os summarys tem grandes custos de processamento no lado do cliente e grandes dificuldades de criar corretamente as métricas. Hoje é muito recomendado utilizar histograms antes de summaries, que ainda acabam existindo mais por uma questão histórica do Prometheus.
+
+## Native histograms
+
+Tem um quinto tipo chegando, e vale conhecer porque ele resolve a maior dor do histogram clássico: os buckets.
+
+No histogram que vimos acima você precisa escolher os buckets na mão, na hora de instrumentar. Escolheu errado? Ou você perde resolução justamente na faixa que importa, ou cria bucket demais e explode a cardinalidade — cada bucket é uma série separada no Prometheus.
+
+O **native histogram** resolve isso com buckets de largura exponencial, calculados automaticamente, e tudo dentro de uma única série. Você não escolhe bucket nenhum, e a resolução acompanha a ordem de grandeza do valor.
+
+O `prometheus.yml` que vem no pacote do Prometheus 3 já habilita a coleta deles:
+
+```
+scrape_configs:
+  - job_name: "prometheus"
+    scrape_native_histograms: true
+```
+
+A consulta é a mesma de sempre, o `histogram_quantile` funciona nos dois casos — só que com native histogram você não precisa do `_bucket` nem do `by (le)`:
+
+```
+# histogram clássico
+histogram_quantile(0.95, sum by (le) (rate(minha_metrica_bucket[5m])))
+
+# native histogram
+histogram_quantile(0.95, rate(minha_metrica[5m]))
+```
+
+O suporte ainda está amadurecendo nas bibliotecas de cliente, então por enquanto trate como algo para ficar de olho, não para migrar tudo hoje.

@@ -68,6 +68,23 @@ $ curl http://localhost:9090/api/v1/alerts
 
 Uma das maneiras mais fáceis de apagar dados do Prometheus é usando a API para excluir metric names inteiros, ou em um período de tempo.
 
+Antes de tentar: **essa parte da API vem desligada por padrão.** Se você chamar sem habilitar, a resposta é essa:
+
+```
+{"status":"error","errorType":"unavailable","error":"admin APIs disabled"}
+```
+
+Para habilitar, suba o Prometheus com `--web.enable-admin-api`. No nosso arquivo de systemd ficaria assim:
+
+```
+ExecStart=/usr/local/bin/prometheus \
+    --config.file /etc/prometheus/prometheus.yml \
+    --storage.tsdb.path /var/lib/prometheus/ \
+    --web.enable-admin-api
+```
+
+Pense bem antes de deixar isso ligado em produção: quem alcançar a porta do Prometheus passa a poder apagar dados. Se ligar, proteja com autenticação ou deixe a porta acessível só de onde você confia.
+
 Basicamente basta fazer um POST na url `/api/v1/admin/tsdb/delete_series`.
 
 Os parametros são:

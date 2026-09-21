@@ -49,7 +49,7 @@ Algumas expressão interessantes para podermos gerar alertas:
 
 - expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{job="node",mode="idle"}[1m])) * 100) > 90
   Servidor com CPU disponível abaixo de 10%.
-- expr: 100 - ((sum(node_filesystem_avail_bytes{app!~"ltc|pms"} * 100) by (instance, device)) / sum(node_filesystem_size_bytes{app!~"ltc|pms"}) by (instance, device)) > 90
+- expr: 100 - ((sum(node_filesystem_avail_bytes * 100) by (instance, device)) / sum(node_filesystem_size_bytes) by (instance, device)) > 90
   Uso de disco acima de 90%
 - max_over_time(prometheus_config_last_reload_successful[5m]) == 0
   O prometheus não conseguiu fazer o reload com sucesso.

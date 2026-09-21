@@ -6,6 +6,8 @@ Descobrimos como instalar o prometheus em servidores físicos, e depois avançam
 
 Cobrimos os tópicos sobre como criar alertas, como usar o Grafana para ter dashboards e explorar os dados. E ainda falamos sobre as melhores praticas de monitoração e alertas.
 
+Se você quiser voltar e praticar sem montar tudo de novo, o [lab](../labs/) sobe o ambiente inteiro com um `make up`.
+
 Tudo isso é resultado de experiencia pratica, e incentivo você a utilizar no seu dia a dia. Além disso estou aqui para trocar ideias sobre esses conceitos, aprendermos junto, e cada vez mais melhorar nossos sistemas.
 
 Rafael Cirolini

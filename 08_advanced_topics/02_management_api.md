@@ -2,28 +2,48 @@
 
 O Prometheus desenvolveu uma API de gerenciamento que podemos executar alguns comandos e pegar alguns status sobre o sistema. Essa API é util para automatizar deployments de alertas ou alterações de configuração, ou até mesmo testar a saúde do Prometheus.
 
+Antes de começar, um aviso que economiza tempo: os endpoints de `/-/healthy` e `/-/ready` funcionam sempre, mas o `/-/reload` e o `/-/quit` **vêm desligados por padrão**. Sem habilitar, a resposta é essa:
+
+```
+$ curl -X POST localhost:9090/-/reload
+Lifecycle API is not enabled.
+```
+
+Para ligar, suba o Prometheus com `--web.enable-lifecycle`:
+
+```
+ExecStart=/usr/local/bin/prometheus \
+    --config.file /etc/prometheus/prometheus.yml \
+    --storage.tsdb.path /var/lib/prometheus/ \
+    --web.enable-lifecycle
+```
+
 Query para testar a saúde do Prometheus. Caso tudo esteja correto ele vai devolver uma resposta com o status 200 OK, com a msg `Prometheus is Healthy.`
 
 ```
 $ curl localhost:9090/-/healthy
-Prometheus is Healthy.
+Prometheus Server is Healthy.
 ```
 
 Query para testar se o Prometheus ja esta pronto para receber consultas, ja esta avaliando os alertas e coletando métricas. Útil para quando reiniciamos o sistema.
 
 ```
 $ curl localhost:9090/-/ready
-Prometheus is Ready.
+Prometheus Server is Ready.
 ```
 
 Fazer o reload do Prometheus, especialmente útil quando você atualiza alertas, cria novos jobs ou alterar confs.
 
 ```
-$ curl -d POST localhost:9090/-/reload
+$ curl -X POST localhost:9090/-/reload
 ```
+
+Repare no `-X POST`. Você vai ver por aí a forma `curl -d POST`, que até funciona por acidente — o `-d` implica POST — mas o que ela faz de verdade é mandar a string "POST" no corpo da requisição. O certo é `-X POST`.
 
 Podemos fazer com que o Prometheus seja encerrado corretamente através da API de gerenciamento, para isto basta.
 
 ```
-curl -d POST localhost:9090/-/quit
+curl -X POST localhost:9090/-/quit
 ```
+
+Uma alternativa ao `/-/reload` que apareceu no Prometheus 3: a flag `--config.auto-reload`, que faz o Prometheus vigiar o arquivo de configuração e recarregar sozinho quando ele muda. Em ambiente onde a configuração é gerada por automação, costuma ser mais simples do que lembrar de chamar o reload.

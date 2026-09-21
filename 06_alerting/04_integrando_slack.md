@@ -2,41 +2,41 @@
 
 Da mesma forma como receber notificações por email pode ajudar, enviar as notificações para o slack quando a tua empresa ja esta acostumada a trabalhar com ele pode ser de muita ajuda.
 
-Primeiro você precisa criar uma URL para a api do slack, para criar uma você precisa ser administrador do seu workspace e ir em Administration -> Manage apps.
+Primeiro você precisa de uma URL de webhook do Slack. O caminho mudou: hoje se cria um app em [api.slack.com/apps](https://api.slack.com/apps) → *Create New App* → *From scratch*, e dentro dele você ativa **Incoming Webhooks** e clica em *Add New Webhook to Workspace*, escolhendo o canal. Você vai precisar de permissão para instalar apps no workspace.
 
-Depois basta procurar por Incoming WebHooks e vai aparecer uma tela como essa:
-
-![AlertmanagerWebHooks](https://grafana.com/static/assets/img/blog/AlertmanagerWebHooks.png "AlertmanagerWebHooks")
-
-Logo após você vai ter uma tela com a Webhook URL e vamos configurar o Alertmanager para enviar as notificações.
+No fim você recebe uma URL no formato `https://hooks.slack.com/services/T000/B000/xxxx`. Guarde ela como segredo — quem tiver essa URL consegue postar no seu canal.
 
 ```
 global:
   resolve_timeout: 5m
   # API URL to use for Slack
   slack_api_url: 'https://hooks.slack.com/services/XXX/XXX/XXXXXXXXX'
+  # Se voce tem um receiver de email no arquivo, o smarthost precisa estar
+  # aqui no global (ou dentro de cada email_configs). Sem isso o Alertmanager
+  # nem sobe: o amtool acusa "no global SMTP smarthost set".
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'alertmanager@yourorganization.com'
 
 route:
   receiver: slack # Fallback
 
   routes:
-  - match:
-      severity: critical
+  - matchers:
+      - severity = "critical"
     receiver: slack
     continue: true
-  - match:
-      severity: high
+  - matchers:
+      - severity = "high"
     receiver: slack
     continue: true
-  - match:
-      severity: email
+  - matchers:
+      - severity = "info"
     receiver: mail
 
 receivers:
 - name: mail
   email_configs:
-  - to: oncall@yourorganization.com'
-  ...
+  - to: 'oncall@yourorganization.com'
 
 - name: slack
   slack_configs:
@@ -46,6 +46,8 @@ receivers:
 
 As mensagens vão aparecer no slack como nas imagens abaixo:
 
-![AlertmanagerSlack](/06_alerting/images/alertmanager_slack.png "AlertmanagerSlack")
+![AlertmanagerSlack](images/alertmanager_slack.png "AlertmanagerSlack")
 
-![AlertmanagerSlack2](/06_alerting/images/alertmanager_slack2.png "AlertmanagerSlack2")
+![AlertmanagerSlack2](images/alertmanager_slack2.png "AlertmanagerSlack2")
+
+> ⚠️ **Screenshots para refazer.** O layout de mensagem do Slack mudou desde 2021.

@@ -7,9 +7,9 @@ Vamos para a pagina de [download](https://prometheus.io/download/#alertmanager) 
 E usando o mesmo servidor Linux que usamos para instalar o Prometheus vamos executar o seguinte:
 
 ```
-wget https://github.com/prometheus/alertmanager/releases/download/v0.21.0/alertmanager-0.21.0.linux-amd64.tar.gz
-tar -xvf alertmanager-0.21.0.linux-amd64.tar.gz
-cd alertmanager-0.21.0.linux-amd64/
+wget https://github.com/prometheus/alertmanager/releases/download/v0.34.1/alertmanager-0.34.1.linux-amd64.tar.gz
+tar -xvf alertmanager-0.34.1.linux-amd64.tar.gz
+cd alertmanager-0.34.1.linux-amd64/
 ```
 
 Para executar o Alertmanager executamos:
@@ -100,3 +100,5 @@ sudo systemctl status prometheus
 Podemos ver no pagina do Prometheus a url do alertmanager ja apontando para a nova instancia.
 
 ![promhttp_metric_handler_requests_total](images/prom_alertmanager.png "Prometheus promhttp")
+
+> ⚠️ **Screenshot para refazer.** Interface do Prometheus 2.
