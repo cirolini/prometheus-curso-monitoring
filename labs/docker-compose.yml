@@ -113,6 +113,43 @@ services:
       - "5000:5000"
     restart: unless-stopped
 
+  # App de IA do modulo 10. Por padrao roda em modo mock, sem chave.
+  llm-app:
+    build: ./llm-app
+    image: lab-llm-app:local
+    container_name: lab-llm-app
+    environment:
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      LLM_MODEL: ${LLM_MODEL:-mock-model-1}
+      LLM_PRICE_INPUT_PER_MTOK: ${LLM_PRICE_INPUT_PER_MTOK:-3.0}
+      LLM_PRICE_OUTPUT_PER_MTOK: ${LLM_PRICE_OUTPUT_PER_MTOK:-15.0}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  # Gera trafego continuo contra o app de IA, para os graficos e alertas
+  # terem o que mostrar sem voce ficar apertando F5.
+  llm-load:
+    image: curlimages/curl:8.11.1
+    container_name: lab-llm-load
+    depends_on:
+      - llm-app
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        while true; do
+          curl -s -X POST http://llm-app:8000/ask \
+            -H 'content-type: application/json' \
+            -d '{"prompt":"explique observabilidade em uma frase"}' > /dev/null || true
+          if [ $$(( RANDOM % 5 )) -eq 0 ]; then
+            curl -s -X POST http://llm-app:8000/agent \
+              -H 'content-type: application/json' \
+              -d '{"prompt":"pesquise e resuma"}' > /dev/null || true
+          fi
+          sleep 3
+        done
+    restart: unless-stopped
+
 volumes:
   prometheus-data:
   alertmanager-data:

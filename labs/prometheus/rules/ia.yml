@@ -1,0 +1,103 @@
+groups:
+  - name: ia.rules
+    rules:
+      # --- SLO de latencia -------------------------------------------------
+      # Chamada de LLM tem cauda longa, entao media nao serve. Alertamos no
+      # p95, e com "for" generoso: um pico de 2 minutos nao e' incidente.
+      - alert: LLMLatenciaAlta
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le, gen_ai_request_model) (
+              rate(gen_ai_client_operation_duration_seconds_bucket[5m])
+            )
+          ) > 10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'p95 do modelo {{ $labels.gen_ai_request_model }} acima de 10s'
+          description: 'A latencia p95 passou de 10 segundos nos ultimos 10 minutos.'
+
+      # --- Erros -----------------------------------------------------------
+      - alert: LLMTaxaDeErroAlta
+        expr: |
+          sum(rate(gen_ai_client_errors_total[5m]))
+            /
+          sum(rate(gen_ai_client_operation_duration_seconds_count[5m]))
+          > 0.10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Mais de 10% das chamadas ao modelo estao falhando'
+
+      # Rate limit merece alerta proprio: a acao e' diferente. Nao adianta
+      # investigar codigo, e' quota.
+      - alert: LLMRateLimitPersistente
+        expr: sum(rate(gen_ai_client_errors_total{error_type="rate_limit"}[10m])) > 0.2
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Batendo em rate limit de forma sustentada'
+          description: 'Considere backoff mais agressivo, fila ou aumento de quota.'
+
+      # --- Custo -----------------------------------------------------------
+      # O predict_linear do modulo 06, aplicado a dinheiro. Olha a ultima
+      # hora de gasto e projeta 24h: se passar do orcamento diario, avisa
+      # agora - nao no fim do mes, quando a fatura chega.
+      - alert: LLMEstouroDeOrcamentoPrevisto
+        expr: |
+          predict_linear(llm_cost_usd_total[1h], 24 * 3600) > 50
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Projecao de custo passa de US$ 50/dia'
+          description: >-
+            No ritmo da ultima hora, o gasto em 24h deve chegar a
+            {{ $value | printf "%.2f" }} dolares.
+
+      # Queima subita: gastando mais de 5x a media da ultima semana.
+      - alert: LLMQueimaDeCustoAnormal
+        expr: |
+          sum(rate(llm_cost_usd_total[10m]))
+            >
+          5 * sum(rate(llm_cost_usd_total[7d]))
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Gasto com o modelo 5x acima do normal'
+
+      # --- Agente ----------------------------------------------------------
+      # Agente que bate no limite de passos esta' rodando em circulo:
+      # gastando token e nao entregando resposta.
+      - alert: AgenteRodandoEmCirculo
+        expr: |
+          sum(rate(gen_ai_invoke_agent_steps_exhausted_total[15m]))
+            /
+          sum(rate(gen_ai_invoke_agent_duration_seconds_count[15m]))
+          > 0.15
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Mais de 15% das execucoes do agente esgotam os passos'
+
+  - name: ia.recording
+    rules:
+      # Custo por hora, pre-calculado. Consulta de dashboard fica barata.
+      - record: llm:cost_usd:rate1h
+        expr: sum by (gen_ai_request_model) (rate(llm_cost_usd_total[1h]))
+
+      - record: llm:tokens:rate5m
+        expr: sum by (gen_ai_request_model, gen_ai_token_type) (rate(gen_ai_client_tokens_total[5m]))
+
+      - record: llm:latency_p95:5m
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le, gen_ai_request_model) (
+              rate(gen_ai_client_operation_duration_seconds_bucket[5m])
+            )
+          )
