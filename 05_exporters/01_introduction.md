@@ -1,6 +1,6 @@
 # Os Exporters
 
-Como ja vimos antes, o Prometheus faz o scrap das métricas em outras aplicações para coletar os dados dos servidores ou de aplicações. Essas aplicações que coletam as métricas são os exporters, elas de alguma forma pegam os dados convertem em métricas e geralmente exportam isso via uma porta http para que o Prometheus possa coletar essas informações de tempos em tempos.
+Como ja vimos antes, o Prometheus faz o scrape das métricas em outras aplicações para coletar os dados dos servidores ou de aplicações. Essas aplicações que coletam as métricas são os exporters, elas de alguma forma pegam os dados convertem em métricas e geralmente exportam isso via uma porta http para que o Prometheus possa coletar essas informações de tempos em tempos.
 
 Existem uma infinidade de exporters não oficiais, pessoas que passaram por determinado problema com uma aplicação/hardware e fizeram um exporter e divulgam isso em algum github opensource. Mas também existem exporter oficiais, ou seja, aqueles que são mantidos pela equipe do Prometheus, ou pela comunidade de algum software, e que em geral são bem confiáveis.
 

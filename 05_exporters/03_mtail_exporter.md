@@ -55,11 +55,9 @@ sudo systemctl status mtail_exporter
 sudo systemctl enable mtail_exporter
 ```
 
-
 ## Programing guide
 
 Para fazer o mtail coletar as métricas nós precisamos instruir a ele através de um conjunto de regras e expressão regulares para poder remover as regras, existe muitos métodos e formas, aqui vamos explicar o mais simples e pode procurar o guia de referencia aqui: https://google.github.io/mtail/Programming-Guide.html
-
 
 Vamos criar o arquivo de conf do mtail o mais simples possível para entendermos:
 

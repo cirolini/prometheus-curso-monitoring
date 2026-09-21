@@ -39,7 +39,6 @@ requests_total = 0
 def prometheus_metrics():
     return 'app_requests_total {}'.format(requests_total)
 
-
 @app.route('/')
 def hello_world():
     global requests_total
@@ -48,7 +47,6 @@ def hello_world():
 ```
 
 Criamos uma variável global, e acessamos ela externamente para registrar o numero de requisições na pagina do Hello World e também criamos outra rota para exibir a métrica. Claro que isso é o exemplo mais simples possível. Mas serve somente para entendermos como podemos fazer para expor métricas.
-
 
 #Fase 2: criando uma métrica através da lib do prometheus e excrevendo em um arquivo
 

@@ -4,14 +4,6 @@ Uma parte importante de todo sistema de monitoração é a habilidade de suprimi
 
 Para silenciar os alertas podermos ir diretamente pela interface do Alertmanager, clicar em silences e podemos criar novos silences.
 
-![Alertmanager-silence1](images/alertmanager-silence1.png "Alertmanager-silence1")
-
-![Alertmanager-silence2](images/alertmanager-silence2.png "Alertmanager-silence2")
-
-![Alertmanager-silence3](images/alertmanager-silence3.png "Alertmanager-silence3")
-
-> ⚠️ **Screenshots para refazer.** Interface do Alertmanager 0.21; hoje estamos na 0.34.
-
 Quando não quiser mais o silence ativo, pode clicar no botão de expirar. Ou simplesmente esperar o tempo de silence que colocou para ele acabar.
 
 ## Pela linha de comando

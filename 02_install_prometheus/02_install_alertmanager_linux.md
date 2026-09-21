@@ -24,7 +24,6 @@ Isso é a forma mais simples de executar o Alertmanager, mas vamos seguir um pro
 
 ## Instalando do jeito certo
 
-
 Criamos um usuário próprio para executar o Alertmanager por questões de segurança e depois colocamos as permissões corretas, nos binários.
 
 ```
@@ -99,6 +98,3 @@ sudo systemctl status prometheus
 
 Podemos ver no pagina do Prometheus a url do alertmanager ja apontando para a nova instancia.
 
-![promhttp_metric_handler_requests_total](images/prom_alertmanager.png "Prometheus promhttp")
-
-> ⚠️ **Screenshot para refazer.** Interface do Prometheus 2.

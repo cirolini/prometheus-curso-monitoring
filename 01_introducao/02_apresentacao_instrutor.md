@@ -1,11 +1,13 @@
 # Quem é Rafael Cirolini?
 
-Meu nome é Rafael Cirolini e sou pós graduado em Big Data e Data Science pela Universidade Federal do Rio Grande do Sul. Trabalho com tecnologia há mais de 20 anos e acompanhei toda a evolução da monitoração de sistemas e infra estrutura de perto.
+Meu nome é Rafael Cirolini e trabalho com tecnologia há mais de 20 anos. Comecei em desenvolvimento de software e fui passando por DevOps, SRE e liderança técnica — o que significa que acompanhei de perto toda a evolução da monitoração de sistemas e infraestrutura, do tempo em que a pergunta era "o serviço está no ar?" até hoje, em que a pergunta é sobre a experiência do usuário.
 
-Atualmente atuo como gerente técnico do time de SRE na [Azion](https://www.azion.com/), onde monitoração e observability é um dos nossos maiores pilares. A Azion provê serviços de edge computing, como serviços de serverless distribuído, CDN ou content delivery network, entre outros, e nossos clientes estão entre os sites mais acessados do Brasil.
+Sou mestrando em Computação Aplicada, com foco em Inteligência Artificial. Minha pesquisa é sobre classificação de intenção usando vetores semânticos, buscando inferência de baixa latência sem o custo de um modelo de linguagem completo. Nos últimos anos meu trabalho tem sido justamente esse: IA aplicada, integração de modelos de linguagem em produto, e — o que mais interessa a este curso — as práticas de engenharia que fazem sistemas de IA funcionarem de forma confiável em produção.
 
-Tudo isso nos traz diversos desafios, como monitoração distribuídas em diversos data centers e pontos de presença ao redor do mundo, monitoração de estruturas em cloud providers, monitoração sobre a percepção do usuário. Saber com precisão a disponibilidade e tempos de resposta dos nossos serviços são vitais para o nosso modelo de negócio.
+Também leciono na Unisinos, na graduação e na pós, em temas de qualidade de software e práticas de DevOps e DevSecOps.
 
-Também trabalhei por muitos anos no Terra, um dos maiores provedores e portais de internet do Brasil, onde pude vivenciar e aprender a monitorar uma infraestrutura com mais de 2 mil servidores e centenas de aplicações e serviços. Muitos dos quais tive a oportunidade de trabalhar como arquiteto ou ajudar no desenvolvimento delas.
+Monitoração sempre foi um dos pilares do trabalho que fiz. Passei por ambientes com milhares de servidores e centenas de aplicações, por infraestrutura distribuída em vários data centers e provedores de nuvem, e por sistemas onde saber com precisão a disponibilidade e o tempo de resposta era vital para o negócio. Muito do que está neste curso saiu de problema real, resolvido às vezes de madrugada.
 
-Nesse curso vou passar a vocês esse conhecimento adquirido ao longo dos anos sobre como monitorar os sistemas e também exemplos práticos de como fazer isso.
+Esse é também o motivo do módulo sobre observar aplicações com IA: agente é software, roda em produção, tem latência, erro e custo. Observar isso não é uma disciplina nova — é a mesma que o curso inteiro ensina, aplicada a um domínio onde os números que importam mudaram.
+
+Nesse curso vou passar a vocês esse conhecimento adquirido ao longo dos anos sobre como monitorar sistemas, e também exemplos práticos de como fazer isso.

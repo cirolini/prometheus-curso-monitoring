@@ -68,10 +68,6 @@ kubectl -n monitoring label configmap meu-dashboard grafana_dashboard=1
 
 Em alguns segundos o dashboard aparece no Grafana. A graça disso é que o dashboard vira um manifesto como qualquer outro: entra no git, passa por review e sobe no deploy junto com a aplicação.
 
-![Grafana-k8s](images/grafana_k8s.png "Grafana-k8s")
-
-> ⚠️ **Screenshot para refazer.** A imagem acima é do Grafana 7 (2021). A interface mudou bastante até a versão atual.
-
 ## Expondo em produção
 
 Vale o mesmo do capítulo anterior: `port-forward` é para desenvolvimento. Em produção, LoadBalancer ou ingress:

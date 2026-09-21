@@ -49,8 +49,3 @@ sudo systemctl reload prometheus
 
 Agora podemos ver na pagina do alertmanager o alerta acontecendo. Podemos inclusive criar um silence para ele para teste.
 
-![prom_alerts](images/prom_alerts.png "Prometheus Alerts")
-
-![alertmanager](images/alertmanager.png "Alertmanager")
-
-> ⚠️ **Screenshots para refazer.** Interfaces do Prometheus 2 e do Alertmanager 0.21.

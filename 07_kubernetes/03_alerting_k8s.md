@@ -117,10 +117,6 @@ E abra a aba `Alerts`, ou consulte pela API:
 curl -s localhost:9090/api/v1/rules | jq '.data.groups[] | select(.name=="curso.rules")'
 ```
 
-![PrometheusAlerting](images/prometheus_alerting.png "PrometheusAlerting")
-
-> ⚠️ **Screenshot para refazer.** A imagem é da interface do Prometheus 2. A UI foi reescrita na versão 3.
-
 ## Notificações
 
 O Alertmanager também ganhou um objeto próprio, o `AlertmanagerConfig`, que permite a cada time configurar as próprias rotas sem mexer na configuração central. Para o lab, configurar pelo values é mais simples — e a sintaxe de rotas e receivers é idêntica à do módulo 06, `matchers` inclusive.

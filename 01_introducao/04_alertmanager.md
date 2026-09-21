@@ -22,5 +22,4 @@ Algumas vezes um alerta pode demandar horas ou dias de trabalho, e o Alertmanage
 
 Em alguns casos você pode precisar de mais de um Alertmanager em diferentes servidores ou localidades para garantir que mesmo com a falha de uma instancia o Alertmanager continue funcionando.
 
-
 Agora que entendemos o funcionamento básico do Prometheus e do Alertmanager vamos para a instalação de toda a plataforma.

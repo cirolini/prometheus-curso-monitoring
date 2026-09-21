@@ -10,7 +10,6 @@ Os paramentros são:
 - time=<rfc3339 | unix_timestamp>: O momento em que vc quer consultar o valor da métrica. Opcional.
 - timeout=<duration>: Tempo para gerar um timeout na requisição. Opcional.
 
-
 ```
 $ curl 'http://localhost:9090/api/v1/query?query=up&time=2015-07-01T20:10:51.781Z'
 {
