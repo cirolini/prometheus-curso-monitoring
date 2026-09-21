@@ -6,12 +6,20 @@ Esse método também tende a tirar falsos positivos, ou alertas que fazemos muit
 
 Para isso existe o predict_linear, ele usa o regressão linear simples para tentar prever o futuro. Em termos muito simples ele tenta traçar uma linha reta entre os padrões de dados em um período de tempo. Quando os valores são normalmente distribuídos, ou seja, seguem um padrão é um método bastante eficiente.
 
-![Linear_regression](/06_alerting/images/linear_regression.png "Linear_regression")
+![Linear_regression](images/linear_regression.png "Linear_regression")
 
 Por exemplo, podemos criar a seguinte expressão:
 
 ```
-expr: predict_linear(node_filesystem_files_free[1h], 4 * 3600) < 0
+expr: predict_linear(node_filesystem_avail_bytes[1h], 4 * 3600) < 0
 ```
 
-Com isso vamos analisar a ultima 1 hora da métrica `node_filesystem_files_free` e tentar prever as próximas 4 horas (4 vezes 3600 segundos), se isso for menor que zero significa que não teremos mais espaço em disco disponível e podemos trabalhar agora para tentar resolver o problema.
+Com isso vamos analisar a ultima 1 hora da métrica `node_filesystem_avail_bytes` e tentar prever as próximas 4 horas (4 vezes 3600 segundos), se isso for menor que zero significa que não teremos mais espaço em disco disponível e podemos trabalhar agora para tentar resolver o problema.
+
+Cuidado para não confundir duas métricas parecidas do node_exporter: `node_filesystem_avail_bytes` é **espaço livre em bytes**, e `node_filesystem_files_free` é **inode livre**. São problemas diferentes — dá para encher os inodes com o disco praticamente vazio, se a aplicação criar muito arquivo pequeno. Se é do inode que você quer cuidar, a expressão é a mesma, só trocando a métrica.
+
+Vale filtrar os sistemas de arquivo virtuais, senão o alerta dispara por causa de `tmpfs` e afins:
+
+```
+expr: predict_linear(node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}[1h], 4 * 3600) < 0
+```

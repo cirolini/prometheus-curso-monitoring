@@ -11,7 +11,7 @@ Bom a instalação do mtail não difere em muito dos outros exporters.
 ```
 mkdir mtail
 cd mtail
-wget https://github.com/google/mtail/releases/download/v3.0.0-rc44/mtail_3.0.0-rc44_Linux_x86_64.tar.gz
+wget https://github.com/google/mtail/releases/download/v3.0.8/mtail_3.0.8_linux_amd64.tar.gz
 tar xvfz mtail*.tar.gz
 ./mtail
 ```

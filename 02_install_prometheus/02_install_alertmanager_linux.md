@@ -100,3 +100,5 @@ sudo systemctl status prometheus
 Podemos ver no pagina do Prometheus a url do alertmanager ja apontando para a nova instancia.
 
 ![promhttp_metric_handler_requests_total](images/prom_alertmanager.png "Prometheus promhttp")
+
+> ⚠️ **Screenshot para refazer.** Interface do Prometheus 2.

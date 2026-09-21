@@ -7,7 +7,7 @@ Esse é o papel do blackbox_exporter. Ele server para fazer requisições HTTP, 
 Vamos usar o mesmo método para executar o blackbox exporter através de um container:
 
 ```
-docker run -p 9115:9115 -d prom/blackbox-exporter
+docker run -p 9115:9115 -d prom/blackbox-exporter:v0.28.0
 ```
 
 Agora ja temos um blackbox rodando em um container e escutando na porta 9115. Basta executarmos no browser uma requisição do tipo:
@@ -16,7 +16,7 @@ Agora ja temos um blackbox rodando em um container e escutando na porta 9115. Ba
 http://localhost:9115/probe?target=prometheus.io&module=http_2xx
 ```
 
-![blackbox](/05_exporters/images/blackbox.png "Blackbox Exporter")
+![blackbox](images/blackbox.png "Blackbox Exporter")
 
 Isso vai fazer com que o blackbox faça uma requisição do tipo http para o site do prometheus.io e esperando que ele receba um 200 OK, ou seja, que a requisição foi um sucesso. O blackbox tbm vai trazer diversas informações uteis sobre o tempo da requisição, as fases, tipo do protocolo e versão do TLS.
 

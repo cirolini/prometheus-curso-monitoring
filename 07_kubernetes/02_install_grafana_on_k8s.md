@@ -1,56 +1,94 @@
-# Instalando o Grafana no Kubernetes
+# Grafana no Kubernetes
 
 O Grafana hoje é uma das principais formas de montar graficos e tirar insights a partir das métricas do Prometheus. Através dele vamos poder explorar mais dados do nosso cluster e ter mais informações relevantes.
 
-## Instalando o Grafana
+> **O que mudou nesta edição.** Antes este capítulo instalava o chart `grafana/grafana` separado e mandava você criar o datasource na mão. Com o kube-prometheus-stack **o Grafana já veio instalado no passo anterior**, com o datasource do Prometheus apontado e dezenas de dashboards de Kubernetes provisionados. Então este capítulo mudou de assunto: em vez de instalar, vamos ver o que já está lá e como acrescentar o que é seu.
 
-Para instalar o Grafana vamos seguir um processo bastante similar ao do prometheus.
-
-```
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo update
-
-helm install [RELEASE_NAME] grafana/grafana
-```
-
-Para acessar o grafana no nosso navegador podemos usar o mesmo comando de port-forward somente mudando para o container do grafana: `kubectl port-forward grafana-76849b87b5-szrm9 9090`
-
-Dentro do Grafana podemos adicionar o source do prometheus, colocando o endereço interno do cluster: `prometheus-server.default.svc.cluster.local` e depois disso ja podemos adicionar alguns dashboards direto do diretório da grafana sobre dashboards:
-
-- https://grafana.com/grafana/dashboards/8588
-- https://grafana.com/grafana/dashboards/7249
-
-
-# Expondo os serviços externamente
-
-Claro que o acesso em produção não funciona usando port-forward, e precisamos ter acesso externo as mesmas URLS. Claro que cada cloud provider como a AWS ou GCP tem o seu próprio jeito de fazer isso, e se você ainda tem um cluster em baremetal tem outras formas.
-
-A maneira mais comum é ativando um service do tipo loadbalancer, isso vai fazer com que o teu provedor de acesso libere um IP externo para que você possa acessar os serviços. Fazemos a configuração dos mesmos alterando as configurações do helm e aplicando novamente.
-
-## GRAFANA
-
-Para o grafana é extremamente parecido com o Prometheus:
+## Acessando
 
 ```
-service:
-  type: LoadBalancer
+kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 ```
 
-Ou para habilitar o ingress:
+Repare em duas coisas. A porta do lado do service é **80**, não 3000 — o `3000:80` mapeia a porta local 3000 para a porta 80 do service. E o alvo é o `svc/`, não o pod: assim você não precisa descobrir o nome do pod, que muda a cada deploy.
+
+Abra http://localhost:3000. O usuário é `admin` e a senha padrão do chart é `prom-operator`. Para confirmar:
 
 ```
-grafana.ini:
-  server:
-    domain: monitoring.example.com
-    root_url: "%(protocol)s://%(domain)s/grafana"
-    serve_from_sub_path: true
-ingress:
-  enabled: true
-  hosts:
-    - "monitoring.example.com"
-  path: "/grafana"
+kubectl -n monitoring get secret monitoring-grafana \
+  -o jsonpath="{.data.admin-password}" | base64 -d ; echo
 ```
 
-Depois disso vamos ter Dashboards como esse:
+Para trocar, mexa nos values:
 
-![Grafana-k8s](/07_kubernetes/images/grafana_k8s.png "Grafana-k8s")
+```
+grafana:
+  adminPassword: algo-melhor-que-isso
+```
+
+## O que já vem pronto
+
+Vá em `Dashboards`. Você vai encontrar uma pasta com um monte de dashboard que ninguém criou: uso de recursos por namespace, por pod, por workload, saúde do control plane, do kubelet, do próprio Prometheus. Eles vêm do projeto [kubernetes-mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin) e são um bom lugar para estudar PromQL de verdade — abra um painel, clique em `Edit` e leia a consulta.
+
+O datasource também já está lá, apontando para o Prometheus do stack. Você pode conferir em `Connections → Data sources`.
+
+## Acrescentando os seus dashboards
+
+Clicar na interface e salvar funciona, mas o dashboard morre junto com o pod. Existem dois jeitos de fazer isso direito.
+
+O primeiro é pelos values, apontando para o catálogo do grafana.com:
+
+```
+grafana:
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: curso
+          folder: Curso
+          type: file
+          options:
+            path: /var/lib/grafana/dashboards/curso
+  dashboards:
+    curso:
+      node-exporter-full:
+        gnetId: 1860        # o famoso Node Exporter Full
+        revision: 41
+        datasource: Prometheus
+```
+
+O segundo, e o mais usado no dia a dia, é o sidecar de dashboards, que já vem ligado. Ele fica olhando os ConfigMaps do cluster e carrega qualquer um que tenha um label específico:
+
+```
+kubectl -n monitoring create configmap meu-dashboard \
+  --from-file=meu-dashboard.json
+
+kubectl -n monitoring label configmap meu-dashboard grafana_dashboard=1
+```
+
+Em alguns segundos o dashboard aparece no Grafana. A graça disso é que o dashboard vira um manifesto como qualquer outro: entra no git, passa por review e sobe no deploy junto com a aplicação.
+
+![Grafana-k8s](images/grafana_k8s.png "Grafana-k8s")
+
+> ⚠️ **Screenshot para refazer.** A imagem acima é do Grafana 7 (2021). A interface mudou bastante até a versão atual.
+
+## Expondo em produção
+
+Vale o mesmo do capítulo anterior: `port-forward` é para desenvolvimento. Em produção, LoadBalancer ou ingress:
+
+```
+grafana:
+  grafana.ini:
+    server:
+      domain: monitoring.example.com
+      root_url: "%(protocol)s://%(domain)s/grafana"
+      serve_from_sub_path: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - monitoring.example.com
+    path: /grafana
+```
+
+E, já que vai ficar exposto: troque a senha do admin e considere plugar no login que a sua empresa já usa. O Grafana fala OAuth, SAML e LDAP.

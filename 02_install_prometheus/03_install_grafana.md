@@ -43,9 +43,13 @@ Usuario e senha default, depois disso você pode trocar.
 
 ![GrafanaLogin](images/grafana_login.png "Grafana Login")
 
+> ⚠️ **Screenshot para refazer.** Tela de login do Grafana 7; hoje estamos na 13.
+
 Primeiro precisamos criar o datasource do prometheus, va em `Connections -> Data sources -> Add new data source` e escolha o Prometheus. O menu mudou de lugar algumas vezes nas versões mais novas do Grafana, mas a ideia continua a mesma: você aponta a url do Prometheus, que no nosso caso é `http://localhost:9090`, e salva.
 
 ![GrafanaDatasource](images/grafana_datasource.png "Grafana datasource")
+
+> ⚠️ **Screenshot para refazer.** O menu de datasources mudou de lugar.
 
 Depois vamos criar o primeiro grafico, va em `Dashboards -> New -> New dashboard -> Add visualization` e escolha o datasource que acabamos de criar.
 
@@ -54,3 +58,5 @@ rate(promhttp_metric_handler_requests_total[1m])
 ```
 
 ![GrafanaGrafico](images/grafana_grafico.png "Grafana Grafico")
+
+> ⚠️ **Screenshot para refazer.** O editor de painel foi redesenhado.

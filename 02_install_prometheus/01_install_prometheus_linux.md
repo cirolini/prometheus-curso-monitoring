@@ -61,6 +61,8 @@ Depois disso basta abrir o seu navegador local preferido em http://localhost:909
 
 ![promhttp_up](images/prom_up.png "Prometheus up")
 
+> ⚠️ **Screenshots para refazer.** As duas imagens acima são da interface do Prometheus 2. A UI foi reescrita na versão 3 e está bem diferente.
+
 
 ## Configurando do jeito certo
 

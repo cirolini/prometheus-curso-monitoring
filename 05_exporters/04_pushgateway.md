@@ -7,8 +7,8 @@ Uma das premissas do prometheus é que ele coleta as métricas, ou seja ele busc
 Agora vamos fazer um pouco diferente do que fizemos antes, podemos claro baixar o binário e instalar ele no nosso ubuntu, mas nesse caso, como em geral é recomendado ter o pushgateway em uma estrutura separada do prometheus vamos colocar ele em um container:
 
 ```
-docker pull prom/pushgateway
-docker run -d -p 9091:9091 prom/pushgateway
+docker pull prom/pushgateway:v1.11.3
+docker run -d -p 9091:9091 prom/pushgateway:v1.11.3
 ```
 
 Depois disso precisamos enviar alguma métrica para o pushgateway, para isso vamos usar o curl:
@@ -40,4 +40,14 @@ scrape_configs:
   - targets: ['localhost:9091']
 ```
 
-Proto, as métricas ja vão estar disponiveis no Prometheus. Esses exemplos foram feitos com curl, mas as principais bibliotecas para o Prometheus para python, go ou outra lingaguem tem formas mais sofisticadas de enviar os dados para o pushgateway.
+Pronto, as métricas ja vão estar disponiveis no Prometheus.
+
+Um detalhe que costuma morder: no job do pushgateway você quase sempre quer `honor_labels: true`. Sem ele, o Prometheus sobrescreve os labels `job` e `instance` que a sua aplicação empurrou, e você perde justamente a informação de quem mandou a métrica.
+
+```
+scrape_configs:
+- job_name: pushgateway
+  honor_labels: true
+  static_configs:
+  - targets: ['localhost:9091']
+``` Esses exemplos foram feitos com curl, mas as principais bibliotecas para o Prometheus para python, go ou outra lingaguem tem formas mais sofisticadas de enviar os dados para o pushgateway.

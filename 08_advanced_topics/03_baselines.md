@@ -6,7 +6,7 @@ A baseline é uma métrica que se baseia em pontos no passado para gerar um linh
 
 Sim, eu sei que existem os `avg_over_time` e o `quantile_over_time` entre outros, o problema é que para graficos sazonais, ou seja aqueles que fazem uma curva, as métricas `over_time` geram uma linha reta de difícil comparação com o momento atual. Ex:
 
-![Baseline_avg](/08_advanced_topics/images/baseline_avg.png "Baseline with avg_over_time")
+![Baseline_avg](images/baseline_avg.png "Baseline with avg_over_time")
 
 Isso é uma baseline, mas para dados sazonais não tem muita eficiência.
 
@@ -39,6 +39,6 @@ Pensando nisso eu queria criar uma baseline que fosse a média dos valores das u
 Com isso temos a média de numero de requestes das ultimas 8 semanas desse exato ponto do tempo, colocando isso em um gráfico no Grafana e juntando com a métrica atual, vamos ter algo semelhante a isso:
 
 
-![Baseline_](/08_advanced_topics/images/baseline.png "Baseline")
+![Baseline_](images/baseline.png "Baseline")
 
 A linha verde é o valor real, e a amarela é a baseline. Esse gráfico mostra que baseado em uma média das ultimas 8 semanas, o meu acesso a essa API esta crescendo. 

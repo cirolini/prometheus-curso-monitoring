@@ -7,11 +7,13 @@ O Node exporter provavelmente seja um dos exporter mais utilizados. Ele server p
 Para instalar o node_exporter vamos continuar na nossa VM e vamos usar um procedimento muito parecido com o que ja fizemos antes:
 
 ```
-wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
-tar xvfz node_exporter-*.*-amd64.tar.gz
-cd node_exporter-*.*-amd64
+wget https://github.com/prometheus/node_exporter/releases/download/v1.12.1/node_exporter-1.12.1.linux-amd64.tar.gz
+tar xvfz node_exporter-*.tar.gz
+cd node_exporter-*/
 ./node_exporter
 ```
+
+Confira a versão mais nova na [página de releases](https://github.com/prometheus/node_exporter/releases) antes de copiar — o `wget` não aceita curinga na URL, o endereço precisa ser o da versão exata.
 
 Para poder ver as métricas que ele ja esta coletando:
 
@@ -25,7 +27,7 @@ Vamos aproveitar e configurar para o node_exporter rodar como serviço:
 sudo useradd --no-create-home --shell /bin/false node_exporter
 sudo mv node_exporter /usr/local/bin
 
-sudo chown node_exporter:node_exporter /usr/local/node_exporter
+sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter
 ```
 
 Criando o arquivo do systemd.
@@ -74,6 +76,8 @@ Para começarmos a analisar os dados do node_exporter ja podemos usar a query la
 - `rate(node_cpu_seconds_total{mode="system"}[1m])`:	A quantidade média de tempo de CPU gasto no modo de sistema, por segundo, durante o último minuto (em segundos)
 - `node_filesystem_avail_bytes`:	O espaço do sistema de arquivos disponível para usuários não root (em bytes)
 - `rate(node_network_receive_bytes_total[1m])`:	O tráfego médio de rede recebido, por segundo, no último minuto (em bytes)
+
+Se você estiver usando o lab (`make up`), o node_exporter já sobe junto e o Prometheus já está coletando dele — pode pular a instalação acima e ir direto para as consultas.
 
 Uma dica muito boa é que vcs instalem no Grafana o dashboard Node Exporter Full, onde ele ja vem com as mais diversas métricas em tráficos separados por contexto, que é extremamente util para visualizar e explorar essas métricas: https://grafana.com/grafana/dashboards/1860
 

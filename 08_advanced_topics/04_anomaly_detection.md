@@ -8,7 +8,7 @@ Um valor que eu gosto bastante de usar o z-score é para detecção de anomalia 
 
 A formula do z-score é assim:
 
-![Z-Score](/08_advanced_topics/images/z-score-formula.png "Z-Score Formula")
+![Z-Score](images/z-score-formula.png "Z-Score Formula")
 
 ## Como calcular o z-score
 
@@ -27,25 +27,26 @@ O resultado é um valor que vai dizer o quanto longe do normal que a métrica es
 
 Se colocarmos isso em um gráfico vai ficar assim, e cada vez que o valor do z-score baixou de -3 foi algo realmente muito baixo do normal.
 
-![Z-Score](/08_advanced_topics/images/z-score.png "Z-Score")
+![Z-Score](images/z-score.png "Z-Score")
 
 Para criarmos um alerta pode ser algo nessa linha:
 
 ```
 - name: AnomalyDetection
   rules:
-  - alert: HHTTP Availability Anomaly Detection
-    expr: (( http_availability - avg_over_time(http_availability[1w])) / stddev_over_time(http_availability[1w]) ) < 3
-    for: 50m
+  - alert: HTTPAvailabilityAnomalyDetection
+    expr: (( http_availability - avg_over_time(http_availability[1w])) / stddev_over_time(http_availability[1w]) ) < -3
+    for: 15m
     labels:
       severity: warning
     annotations:
-      summary: "Anomaly detected in HTTP Availability "
-      description: "Z-Score is above than -3"
+      summary: "Anomalia detectada na disponibilidade HTTP"
+      description: "O z-score caiu abaixo de -3, ou seja, mais de 3 desvios padrao abaixo do normal da ultima semana."
 ```
+
+Atenção ao sinal: é `< -3`, não `< 3`. Com `< 3` o alerta dispararia praticamente o tempo todo, já que quase todo valor normal fica abaixo de 3 desvios padrão. O que queremos é o outro extremo — o valor que está **muito abaixo** do normal.
 
 
 Referencias:
 - https://about.gitlab.com/blog/2019/07/23/anomaly-detection-using-prometheus/
 - https://en.wikipedia.org/wiki/Standard_score
-- https://towardsdatascience.com/practical-monitoring-with-prometheus-grafana-part-iii-81f019ecee19

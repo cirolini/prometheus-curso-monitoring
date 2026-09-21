@@ -6,11 +6,25 @@ Vamos cobrir um grande número de tópicos, todos eles com exemplos práticos. V
 
 Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim vamos ver alguns aspectos avançados e ainda entender alguns conceitos sobre a monitoração e alertas.
 
+## Subindo o ambiente
+
+Não precisa instalar nada à mão para começar. Na raiz do repositório:
+
+```
+make up
+```
+
+Isso levanta Prometheus, Alertmanager, Grafana (com datasource e dashboard já prontos), node_exporter, blackbox_exporter, pushgateway, cAdvisor e uma aplicação de exemplo. Detalhes, portas e versões em [`labs/`](labs/).
+
+Para a parte de Kubernetes, `make k8s` cria um cluster kind com o kube-prometheus-stack instalado.
+
+As lições de instalação manual continuam aqui e valem a pena — é nelas que você entende o que está acontecendo por baixo. O lab é só o caminho rápido para quando você quer praticar a consulta e não montar o ambiente de novo.
+
 ## Sumário
 
 ### Introdução
 1. [Introdução](01_introducao/01_introducao.md)
-1. [Apresentação do Instrutor](01_introducao/02_apresentacao_intrutor.md)
+1. [Apresentação do Instrutor](01_introducao/02_apresentacao_instrutor.md)
 1. [Arquitetura do Prometheus](01_introducao/03_arquitetura_prometheus.md)
 1. [Conceitos do Alertmanager](01_introducao/04_alertmanager.md)
 
@@ -28,11 +42,11 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 1. [Jobs e Instances](03_conceitos/03_jobs_instances.md)
 
 ### Querying Prometheus
-1. [Básico](04_quering/01_basico.md)
-1. [Operators](04_quering/02_operator.md)
-1. [Funções](04_quering/03_functions.md)
-1. [Recording Rules](04_quering/04_recording_rules.md)
-1. [API HTTP](04_quering/05_api_http.md)
+1. [Básico](04_querying/01_basico.md)
+1. [Operators](04_querying/02_operator.md)
+1. [Funções](04_querying/03_functions.md)
+1. [Recording Rules](04_querying/04_recording_rules.md)
+1. [API HTTP](04_querying/05_api_http.md)
 
 ### Exporters
 1. [Introdução aos Exporters](05_exporters/01_introduction.md)
@@ -40,7 +54,7 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 1. [mtail_exporter](05_exporters/03_mtail_exporter.md)
 1. [pushgateway](05_exporters/04_pushgateway.md)
 1. [blackbox_exporter](05_exporters/05_blackbox_exporter.md)
-1. [cadvisor](05_exporters/06_cadivisor.md)
+1. [cadvisor](05_exporters/06_cadvisor.md)
 1. [Criando o seu Exporter](05_exporters/07_escrevendo_exporters.md)
 
 ### Alerting
@@ -51,18 +65,18 @@ Quero mostrar como usar os exporters e também gerar os seus próprios. Por fim 
 1. [Silenciando alertas](06_alerting/05_silence.md)
 
 ### Integrando com o Kubernetes
-1. [Instalando o Prometheus no Kubernetes](/07_kubernetes/01_install_prometheus_on_k8s.md)
-1. [Instalando o Grafana no Kubernetes](/07_kubernetes/02_install_grafana_on_k8s.md)
-1. [Alertas no Kubernetes](/07_kubernetes/03_alerting_k8s.md)
-1. [Service Discovery](/07_kubernetes/04_service_discovery.md)
+1. [Instalando o Prometheus no Kubernetes](07_kubernetes/01_install_prometheus_on_k8s.md)
+1. [Instalando o Grafana no Kubernetes](07_kubernetes/02_install_grafana_on_k8s.md)
+1. [Alertas no Kubernetes](07_kubernetes/03_alerting_k8s.md)
+1. [Service Discovery](07_kubernetes/04_service_discovery.md)
 
 ### Aspectos Avançados
-1. [Federation](/08_advanced_topics/01_federation.md)
-1. [Management API](/08_advanced_topics/02_management_api.md)
-1. [Baselines](/08_advanced_topics/03_baselines.md)
-1. [Z-Score](/08_advanced_topics/04_anomaly_detection.md)
+1. [Federation](08_advanced_topics/01_federation.md)
+1. [Management API](08_advanced_topics/02_management_api.md)
+1. [Baselines](08_advanced_topics/03_baselines.md)
+1. [Z-Score](08_advanced_topics/04_anomaly_detection.md)
 
 ### Conclusão
-1. [Modelos de monitoração](/09_conclusion/01_modelos_de_monitoracao.md)
-1. [Alertando sobre os sintomas (Alert on the user experience)](/09_conclusion/02_alerting_on_sitoms.md)
-1. [Conclusão](/09_conclusion/03_conclusion.md)
+1. [Modelos de monitoração](09_conclusion/01_modelos_de_monitoracao.md)
+1. [Alertando sobre os sintomas (Alert on the user experience)](09_conclusion/02_alerting_on_symptoms.md)
+1. [Conclusão](09_conclusion/03_conclusion.md)
