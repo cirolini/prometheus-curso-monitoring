@@ -1,0 +1,72 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# No Prometheus 3 a retencao saiu das flags de inicializacao
+# (--storage.tsdb.retention.time esta deprecated) e vive aqui.
+# A vantagem: da' para mudar com um reload, sem reiniciar o servico.
+storage:
+  tsdb:
+    retention:
+      time: 15d
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: alertmanager
+    static_configs:
+      - targets: ['alertmanager:9093']
+
+  - job_name: grafana
+    static_configs:
+      - targets: ['grafana:3000']
+
+  - job_name: node_exporter
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: cadvisor
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  - job_name: pushgateway
+    # honor_labels e' importante aqui: sem ele o Prometheus sobrescreve
+    # os labels job/instance que a aplicacao empurrou para o pushgateway.
+    honor_labels: true
+    static_configs:
+      - targets: ['pushgateway:9091']
+
+  - job_name: app
+    static_configs:
+      - targets: ['app:5000']
+
+  # O blackbox e' diferente dos outros: o Prometheus nao coleta metricas
+  # "do" blackbox, ele pede para o blackbox testar um alvo. Por isso a
+  # danca de relabel abaixo - ela troca o alvo real pelo blackbox e
+  # passa o alvo original como parametro.
+  - job_name: blackbox
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - https://prometheus.io
+          - https://grafana.com
+          - http://app:5000
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
