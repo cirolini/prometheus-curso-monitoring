@@ -76,6 +76,13 @@ As lições de instalação manual continuam aqui e valem a pena — é nelas qu
 1. [Baselines](08_advanced_topics/03_baselines.md)
 1. [Z-Score](08_advanced_topics/04_anomaly_detection.md)
 
+### Observando aplicações com IA
+1. [O que muda quando a aplicação chama um LLM](10_observando_ia/01_o_que_muda.md)
+1. [Instrumentando uma chamada de LLM](10_observando_ia/02_instrumentando.md)
+1. [Convenções do OpenTelemetry para GenAI](10_observando_ia/03_opentelemetry_genai.md)
+1. [Dashboards e alertas para IA](10_observando_ia/04_dashboards_e_alertas.md)
+1. [Observando um agente](10_observando_ia/05_observando_agente.md)
+
 ### Conclusão
 1. [Modelos de monitoração](09_conclusion/01_modelos_de_monitoracao.md)
 1. [Alertando sobre os sintomas (Alert on the user experience)](09_conclusion/02_alerting_on_symptoms.md)

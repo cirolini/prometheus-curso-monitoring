@@ -22,6 +22,7 @@ Isso levanta o ambiente inteiro. Quando terminar:
 | cAdvisor | http://localhost:8080 | |
 | node_exporter | http://localhost:9100/metrics | |
 | blackbox_exporter | http://localhost:9115 | |
+| App de IA | http://localhost:8000 | o app do módulo 10; tem `/ask`, `/agent` e `/docs` |
 
 Para derrubar e limpar os volumes:
 
@@ -44,6 +45,7 @@ As versões estão pinadas no arquivo [`.env`](.env). Nada de `:latest` — um c
 | blackbox_exporter | `v0.28.0` | 19/09/2026 |
 | pushgateway | `v1.11.3` | 19/09/2026 |
 | cAdvisor | `v0.55.1` | 19/09/2026 |
+| App de IA (FastAPI) | `fastapi 0.118.0`, `prometheus-client 0.21.1` | 19/09/2026 |
 
 > Sobre o cAdvisor: o release dele no GitHub já está na `v0.60.6`, mas a imagem publicada em `gcr.io` para na `v0.55.1`. Usamos a mais nova que existe de verdade no registry. Se você tentar `v0.60.6`, o pull falha.
 
@@ -56,6 +58,25 @@ Três coisas no lab existem para resolver pegadinhas que aparecem nas lições:
 **A retenção.** Em [`prometheus/prometheus.yml`](prometheus/prometheus.yml) ela está em `storage.tsdb.retention.time`, dentro do arquivo de configuração — e não na flag `--storage.tsdb.retention.time`, que ficou *deprecated* no Prometheus 3. A vantagem de estar na config é que dá para mudar com um reload, sem reiniciar o serviço.
 
 **Os `matchers` do Alertmanager.** Em [`alertmanager/alertmanager.yml`](alertmanager/alertmanager.yml) as rotas usam `matchers:`. O `match:` que aparece em tutoriais antigos está *deprecated* desde o Alertmanager 0.22.
+
+## O app de IA do módulo 10
+
+O serviço `llm-app` é a aplicação do [módulo 10](../10_observando_ia/). Por padrão ela roda em **modo mock** — simula latência de cauda longa, contagem de tokens e falhas plausíveis — então o lab funciona sem chave de API nenhuma.
+
+O lab também sobe um gerador de tráfego (`llm-load`) contra ela, para os gráficos e alertas terem o que mostrar sem você ficar apertando F5.
+
+Para apontar para um provider de verdade, o adapter é configurado por ambiente:
+
+```
+LLM_PROVIDER=http
+LLM_BASE_URL=https://api.seu-provider.com/v1/chat/completions
+LLM_MODEL=nome-do-modelo
+LLM_API_KEY=...
+LLM_PRICE_INPUT_PER_MTOK=3.0
+LLM_PRICE_OUTPUT_PER_MTOK=15.0
+```
+
+O curso é neutro quanto a fornecedor de propósito: trocar de provider é implementar uma função em [`llm-app/provider.py`](llm-app/provider.py), e nenhuma métrica muda.
 
 ## Kubernetes
 

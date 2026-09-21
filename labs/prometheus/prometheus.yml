@@ -50,6 +50,10 @@ scrape_configs:
     static_configs:
       - targets: ['app:5000']
 
+  - job_name: llm-app
+    static_configs:
+      - targets: ['llm-app:8000']
+
   # O blackbox e' diferente dos outros: o Prometheus nao coleta metricas
   # "do" blackbox, ele pede para o blackbox testar um alvo. Por isso a
   # danca de relabel abaixo - ela troca o alvo real pelo blackbox e
