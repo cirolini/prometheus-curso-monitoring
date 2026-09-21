@@ -8,7 +8,7 @@ Como vimos antes o Prometheus é composto de uma série de ferramentas que se co
 - Tem uma linguagem de consulta flexível, a **PromQL**, onde pode extrair e modelar os dados para revelar informações relevante
 - Nodos são **autônomos**, ou seja, não trabalham em cluster
 - A coleta de dados é feita por HTTP, ou seja, é o Prometheus server que vai até os servidores e aplicações coletar os dados via o protocolo http
-- O envio de dados para o Prometheus é feito através do **pushgateway**, ou seja quando a tua aplicação necessita enviar dados para o Prometheus, como por exemplo uma função serverless que execute em um determinado horário pode querer enviar os dados ao contrário de esperar o Prometheus coletar os dados
+- O envio de dados para o Prometheus é feito através do **pushgateway**, ou seja quando a tua aplicação necessita enviar dados para o Prometheus, como por exemplo uma função serverless que execute em um determinado horário pode querer enviar os dados ao contrário de esperar o Prometheus coletar os dados. Hoje também existe o caminho do **OTLP**, onde aplicações instrumentadas com OpenTelemetry mandam as métricas direto para o Prometheus
 - Novas aplicações e serviços podem ser monitoradas através de **service discovery** ou arquivos de configuração
 
 ## Componentes
@@ -20,8 +20,8 @@ Como vimos antes o Prometheus é composto de uma série de ferramentas que se co
 - o **push gateway** é uma forma de enviar dados para o Prometheus para aplicações de curta duração
 - **exporters**, são aplicações que servem para extrair dados de determinado sistema ou aplicação, como por exemplo o `node_exporter` que coleta dados de sistemas Linux, como uso de CPU, disco, memória etc, `mysql_exporter` que pega estatísticas do MySql, o `snmp_exporter` que pode ser utilizado para integrar com monitorações SNMP, ou o `cadvisor` que coleta estatísticas sobre containers.
 - o **Alertmanager** que serve para lidar com alertas, integrar com ferramentas externas, como email, slack, Pagerduty ou Opsgenie.
-- e ainda várias outras ferramentas, por exemplo como o `promctl`, que é uma ferramenta de linha de comando que facilita a interação com o Prometheus.
-- **Grafana**, é uma ferramenta a parte mas em geral são usados em conjunto, é usado para a visualização das métricas e criação de dashboards.
+- e ainda várias outras ferramentas, por exemplo o `promtool`, que é a ferramenta de linha de comando que vem junto com o Prometheus e serve para validar configurações, validar regras, testar alertas e consultar dados, e o `amtool`, que faz o mesmo papel do lado do Alertmanager.
+- **Grafana**, é uma ferramenta a parte mas em geral são usados em conjunto, é usado para a visualização das métricas e criação de dashboards. Vale dizer que a interface web do próprio Prometheus foi reescrita na versão 3 e ficou bem melhor para explorar métricas, mas para dashboards de verdade o Grafana continua sendo a escolha.
 
 ### Para que ele serve
 

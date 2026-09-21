@@ -9,7 +9,7 @@ Download: [Vagrant](https://www.vagrantup.com/), [Virtualbox](https://www.virtua
 A instalação dos dois softwares é bastante simples, basicamente download e depois next, next e finish. Depois dos dois softwares instalados, basta abrir um terminal e digitar os seguintes comandos:
 
 ```
-vagrant init ubuntu/trusty64
+vagrant init bento/ubuntu-24.04
 vim Vagrantfile
 ```
 
@@ -26,10 +26,12 @@ vagrant ssh
 Agora você precisa entrar na página de [downloads](https://github.com/prometheus/prometheus/releases/) do Prometheus e pegar a última versão para o linux, atualmente é assim:
 
 ```
-wget https://github.com/prometheus/prometheus/releases/download/v2.23.0/prometheus-2.23.0.linux-amd64.tar.gz
+wget https://github.com/prometheus/prometheus/releases/download/v3.14.0/prometheus-3.14.0.linux-amd64.tar.gz
 tar xvfz prometheus-*.tar.gz
 cd prometheus-*
 ```
+
+Repare que estamos usando a série 3.x do Prometheus. Se você já conhecia o Prometheus 2, a boa notícia é que quase tudo que você sabe continua valendo: o modelo de dados, a PromQL e o formato do arquivo de configuração são os mesmos. O que mudou foram detalhes que vamos comentando ao longo do curso, como a interface web nova e o fim dos `consoles`, que eram aqueles dashboards antigos em Go template que ninguém mais usava.
 
 Para garantir que ele está funcionando corretamente, execute `prometheus --help` que vai exibir as informações de ajuda para iniciar o sistema:
 
@@ -94,15 +96,7 @@ sudo chown prometheus:prometheus /usr/local/bin/prometheus
 sudo chown prometheus:prometheus /usr/local/bin/promtool
 ```
 
-Depois vamos copiar os diretórios `consoles` e o `console_libraries` para o `/etc/prometheus`
-
-```
-sudo cp -r consoles /etc/prometheus
-sudo cp -r console_libraries /etc/prometheus
-
-sudo chown -R prometheus:prometheus /etc/prometheus/consoles
-sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
-```
+Se você fez essa instalação em versões antigas do Prometheus deve estar sentindo falta de copiar os diretórios `consoles` e `console_libraries`. Eles não existem mais a partir do Prometheus 3, o pacote agora traz só os dois binários e o arquivo de configuração de exemplo, então podemos pular esse passo.
 
 Vamos copiar também o arquivo de configuração do Prometheus:
 
@@ -128,9 +122,7 @@ Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/usr/local/bin/prometheus \
     --config.file /etc/prometheus/prometheus.yml \
-    --storage.tsdb.path /var/lib/prometheus/ \
-    --web.console.templates=/etc/prometheus/consoles \
-    --web.console.libraries=/etc/prometheus/console_libraries
+    --storage.tsdb.path /var/lib/prometheus/
 
 [Install]
 WantedBy=multi-user.target
@@ -139,7 +131,6 @@ WantedBy=multi-user.target
 Depois só iniciar o sistema:
 
 ```
-sudo apt-get install systemd
 sudo systemctl daemon-reload
 sudo systemctl start prometheus
 sudo systemctl status prometheus

@@ -1,6 +1,6 @@
 # Usando o Prometheus com o Docker
 
-Uma das maneiras mais fáceis de testar o Prometheus é executando ele diretamente como um container no Docker. Primeiro você precisa ter o docker instalado no seu computador, basta ir na pagina https://www.docker.com/get-started e baixar o Docker para desktop e depois instalar.
+Uma das maneiras mais fáceis de testar o Prometheus é executando ele diretamente como um container no Docker. Primeiro você precisa ter o docker instalado no seu computador, basta ir na pagina https://www.docker.com/get-started/ e baixar o Docker Desktop e depois instalar.
 
 Na pagina oficial do docker hub, tem a imagem do container e alguma informação relevante: https://hub.docker.com/r/prom/prometheus/
 
@@ -41,8 +41,10 @@ Agora ja aprendemos a executar o Prometheus como um container e outras maneiras 
 ```
 git clone https://github.com/cirolini/prometheus-lab
 cd prometheus-lab/
-docker-compose up
+docker compose up
 ```
+
+Se você estiver acostumado com o `docker-compose` com hífen, ele ainda funciona em instalações antigas, mas hoje o compose é um plugin do próprio docker e o comando certo é `docker compose`, sem o hífen.
 
 Com isso ja temos uma infra estrutura completa com o Prometheus, Alertmanager, Grafana, node_exporter, mtail_exporter, cadvisor e blackbox, vamos falar mais sobre todos esses componentes depois mas agora podemos olhar um pouco o arquivo de configuração do docker compose, e depois acessar alguns links interessantes para entender como funciona a integração entre os compontes.
 
