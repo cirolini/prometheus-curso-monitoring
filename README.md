@@ -121,6 +121,15 @@ O curso foi escrito em 2020 e 2021, quando o Prometheus estava na série 2.x. Es
 
 Em resumo: Prometheus 3.14, Alertmanager 0.34, Grafana 13, kube-prometheus-stack no lugar do chart antigo, labs que sobem com um comando, e um módulo novo sobre observar aplicações com IA.
 
+## Licença
+
+O curso é livre, com duas licenças conforme o tipo de material:
+
+- **O conteúdo** — as lições, os textos e as imagens — está sob [Creative Commons Atribuição-CompartilhaIgual 4.0 Internacional](LICENSE) (CC BY-SA 4.0). Você pode copiar, adaptar, traduzir e até usar comercialmente, desde que dê crédito e mantenha a mesma licença no resultado.
+- **O código** — o que está em `labs/`, os exporters de exemplo e os arquivos de configuração — está sob [licença MIT](LICENSE-CODE). Use à vontade, inclusive em produção.
+
+Na prática: se você der uma aula com esse material, cite a fonte. Se copiar um `docker-compose.yml` daqui para o seu projeto, não precisa de nada.
+
 ## Contribuindo
 
 Achou erro, link quebrado ou coisa que envelheceu? Abra uma issue ou um PR. O curso é mantido em aberto justamente por isso.

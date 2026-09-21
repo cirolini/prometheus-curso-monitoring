@@ -57,13 +57,6 @@ Depois disso basta abrir o seu navegador local preferido em http://localhost:909
  go_threads
 ```
 
-![promhttp_metric_handler_requests_total](images/prom_promhttp.png "Prometheus promhttp")
-
-![promhttp_up](images/prom_up.png "Prometheus up")
-
-> ⚠️ **Screenshots para refazer.** As duas imagens acima são da interface do Prometheus 2. A UI foi reescrita na versão 3 e está bem diferente.
-
-
 ## Configurando do jeito certo
 
 Bom, mas não podemos deixar o Prometheus rodando dessa forma, precisamos corrigir algumas questões de segurança e deixar o serviço do Prometheus executando em background, que ele inicialize com o sistema, etc.

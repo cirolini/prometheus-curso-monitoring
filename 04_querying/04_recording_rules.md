@@ -4,7 +4,6 @@ Muitas vezes as querys que precisamos fazer podem ser muito pesadas e podem exig
 
 Para aliviar esse trabalho no Prometheus podemos usar as recording rules, que ja fazem o processamento que é necessário em tempo de coleta, ou seja, podemos gravar dados ja pré processados em uma outra metric name para poder consultar mais rapidamente.
 
-
 Criamos um arquivo com as regras:
 
 ```

@@ -20,14 +20,12 @@ process_resident_memory_bytes / 1024
 
 Podemos usar operadores de comparação para extrair somente os dados que desejamos:
 
-
 - == (igual)
 - != (não-igual)
 - > (maior-que)
 - < (menor-que)
 - >= (maior-ou-igual)
 - <= (menor-ou-igual)
-
 
 Por exemplo se quisermos ver o numero de requisições que são acima de 10 para esse metric name podemos usar assim:
 
@@ -53,7 +51,6 @@ Os operadores de agregação mais comuns são:
 - avg (calculate the average over dimensions)
 - count (count number of elements in the vector)
 - topk (largest k elements by sample value)
-
 
 Alguns exemplos de querys são:
 

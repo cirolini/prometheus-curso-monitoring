@@ -40,7 +40,6 @@ c.inc()     # Increment by 1
 c.inc(1.6)  # Increment by given value
 ```
 
-
 ## Gauge
 
 Um Gauge é uma métrica que representa um valor numérico que pode subir ou descer. Server para medir numero de processos ou threads, e também saturação como uso de disco ou memória, entre muitas outras métricas.
@@ -62,7 +61,6 @@ g.inc()      # Increment by 1
 g.dec(10)    # Decrement by given value
 g.set(4.2)   # Set to a given value
 ```
-
 
 ## Histogram
 
@@ -106,7 +104,6 @@ histogram_quantile(0.9,
 ## Summary
 
 Summary são muito similares aos histogram, server para contabilizar tempos de respostas ou tamanhos das requisições e também servem para verificar os percentils de valores. A grande diferença é que os summary os quantiles não são cumulativos, e se são processados na aplicação/cliente. Então, se vc deseja saber o percentil de um determinado valor pode buscar a metrica diretamente usando o label do quantile.
-
 
 ```
 # HELP prometheus_rule_evaluation_duration_seconds The duration for a rule to execute.

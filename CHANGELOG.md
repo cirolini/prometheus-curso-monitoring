@@ -16,6 +16,8 @@ O levantamento completo que motivou cada mudança está em [`docs/audit-2026.md`
 
 **Um `.gitignore`**, que o repositório não tinha.
 
+**Licenças.** O conteúdo passou a ser [CC BY-SA 4.0](LICENSE) e o código [MIT](LICENSE-CODE). Até aqui o repositório não tinha licença nenhuma, o que na prática deixava quem quisesse usar o material sem saber se podia.
+
 ### Atualizado
 
 | | Era | Virou |
@@ -70,6 +72,14 @@ O levantamento completo que motivou cada mudança está em [`docs/audit-2026.md`
 - referência a um artigo do `towardsdatascience.com` que saiu do ar
 - o link do SRE book migrou para `sre.google`
 
+### Removido
+
+**15 screenshots desatualizadas.** Eram de interfaces que mudaram demais para o texto continuar batendo — Prometheus 2, Grafana 7, Alertmanager 0.21. Tirar é mais honesto do que deixar o aluno procurando na tela um botão que não existe mais. Os arquivos `.png` seguem no repositório, então é só voltar a referenciá-los se forem refeitos.
+
+As imagens que continuam são as que ensinam e não envelhecem: o diagrama de arquitetura, a fórmula do z-score, os gráficos de baseline e de regressão linear, e as telas do blackbox e do cAdvisor.
+
+**`05_exporters/my_exporter/deploy.yml`** — um workflow do GitHub Actions solto dentro de uma pasta de lição. Não estava em `.github/workflows`, então nunca rodou, e fazia push para um registry que não tem a ver com o curso.
+
 ### Renomeado
 
 Com stub de redirect em cada nome antigo, para não quebrar links de terceiros:
@@ -91,9 +101,11 @@ Curtas, onde o assunto mudou de um jeito que importa para quem está aprendendo:
 - **ingestão OTLP** (módulos 02 e 10) — o Prometheus 3 recebe OpenTelemetry direto, sem collector
 - **remote_write e Thanos/Mimir** (módulo 08) — alternativa ao federation para visão global
 
+### Atualizado também
+
+**A bio do instrutor** foi reescrita. A anterior era de 2021.
+
 ### Pendente
 
-- **10 screenshots** estão marcadas no texto como "para refazer". São de interfaces que mudaram muito (Grafana 7, Prometheus 2, Alertmanager 0.21). Foram marcadas em vez de substituídas por imagens falsas
-- **a bio do instrutor** (`01_introducao/02_apresentacao_instrutor.md`) continua com o texto de 2021
-- **o repositório não tem `LICENSE`** — com 385 estrelas e 123 forks, formalmente ninguém sabe se pode usar ou adaptar o material
-- `05_exporters/my_exporter/deploy.yml` é um workflow do GitHub Actions solto dentro de uma pasta de lição, que nunca rodou
+- **Screenshots novas.** As 15 antigas foram removidas e o texto foi escrito para funcionar sem elas. Se forem refeitas em algum momento, os arquivos originais continuam no repositório como referência do que cada uma mostrava
+- **O lab do módulo 10 não foi executado ponta a ponta.** Foram validados as regras com `promtool`, a sintaxe do Python e o JSON do dashboard, mas o `make up` com a aplicação de IA ainda precisa ser rodado

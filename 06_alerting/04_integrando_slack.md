@@ -44,10 +44,4 @@ receivers:
     send_resolved: true
 ```
 
-As mensagens vão aparecer no slack como nas imagens abaixo:
-
-![AlertmanagerSlack](images/alertmanager_slack.png "AlertmanagerSlack")
-
-![AlertmanagerSlack2](images/alertmanager_slack2.png "AlertmanagerSlack2")
-
-> ⚠️ **Screenshots para refazer.** O layout de mensagem do Slack mudou desde 2021.
+Com isso, cada alerta que casar com uma das rotas vira uma mensagem no canal `#monitoring`, e o `send_resolved: true` faz o Alertmanager avisar também quando o problema se resolve — o que costuma ser tão útil quanto o alerta em si.

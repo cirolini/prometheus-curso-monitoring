@@ -22,7 +22,6 @@ O rate calcula a média por segundo de um **counter** — aquele valor que só s
 
 Vale gravar essa regra, porque é o erro mais comum de quem está começando: **`rate` é sempre sobre counter, nunca sobre gauge.** Aplicar `rate` num gauge devolve número, mas número sem significado. O `rate` também trata sozinho o reset do contador: se a aplicação reinicia e a métrica volta a zero, ele entende que houve reset e não devolve um valor negativo.
 
-
 ```
 rate(prometheus_http_requests_total{handler="/metrics"}[1m])
 ```

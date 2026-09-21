@@ -31,8 +31,6 @@ Vamos subir mais um container para poder verificar entre os containers as inform
 docker run --name blackbox -p 9115:9115 prom/blackbox-exporter:v0.28.0
 ```
 
-
-
 Depois disso a integração com o prometheus tbm é simples:
 
 ```

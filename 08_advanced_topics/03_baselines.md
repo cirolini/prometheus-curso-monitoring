@@ -38,7 +38,6 @@ Pensando nisso eu queria criar uma baseline que fosse a média dos valores das u
 
 Com isso temos a média de numero de requestes das ultimas 8 semanas desse exato ponto do tempo, colocando isso em um gráfico no Grafana e juntando com a métrica atual, vamos ter algo semelhante a isso:
 
-
 ![Baseline_](images/baseline.png "Baseline")
 
 A linha verde é o valor real, e a amarela é a baseline. Esse gráfico mostra que baseado em uma média das ultimas 8 semanas, o meu acesso a essa API esta crescendo. 

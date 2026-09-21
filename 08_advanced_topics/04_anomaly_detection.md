@@ -46,7 +46,6 @@ Para criarmos um alerta pode ser algo nessa linha:
 
 Atenção ao sinal: é `< -3`, não `< 3`. Com `< 3` o alerta dispararia praticamente o tempo todo, já que quase todo valor normal fica abaixo de 3 desvios padrão. O que queremos é o outro extremo — o valor que está **muito abaixo** do normal.
 
-
 Referencias:
 - https://about.gitlab.com/blog/2019/07/23/anomaly-detection-using-prometheus/
 - https://en.wikipedia.org/wiki/Standard_score
