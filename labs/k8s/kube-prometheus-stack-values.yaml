@@ -1,0 +1,101 @@
+# Values do kube-prometheus-stack para o lab do curso.
+#
+# Chart testado: 91.4.1 (appVersion v0.94.0) - 19/09/2026
+#
+# Este arquivo e' de proposito pequeno. O values.yaml completo do chart
+# passa de 5 mil linhas; aqui ficam so' as chaves que o curso mexe.
+# Para ver tudo:  helm show values prometheus-community/kube-prometheus-stack
+
+fullnameOverride: monitoring
+
+prometheus:
+  prometheusSpec:
+    # Em cluster pequeno nao adianta pedir mais do que o kind tem.
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    retention: 6h
+    # Por padrao o operator so' enxerga ServiceMonitor/PodMonitor que
+    # tenham o label do proprio release. Estas quatro linhas mandam ele
+    # enxergar tudo no cluster - e' o que voce quer num lab, e o que
+    # voce provavelmente NAO quer em producao.
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    enableAdminAPI: true
+
+grafana:
+  enabled: true
+  adminPassword: prom-operator
+  defaultDashboardsTimezone: browser
+  service:
+    type: ClusterIP
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+  config:
+    route:
+      group_by: ['alertname']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: default
+      routes:
+        # Igual ao lab do Docker: "matchers", nao o "match" deprecated.
+        - matchers:
+            - alertname = "Watchdog"
+          receiver: devnull
+    receivers:
+      - name: default
+      - name: devnull
+
+# O kind roda tudo em container: alguns coletores nao tem o que ler.
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
+
+# Estes componentes nao sao acessiveis num cluster kind, entao
+# desligamos para nao ficar com target vermelho no Prometheus sem motivo.
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeEtcd:
+  enabled: false
+
+# Regras extras do curso, no formato do operator (PrometheusRule).
+# Repare que aqui o alerta nao vai num arquivo solto como no modulo 06 -
+# ele vira um objeto do Kubernetes.
+additionalPrometheusRulesMap:
+  curso-rules:
+    groups:
+      - name: curso.rules
+        rules:
+          - alert: PodCrashLooping
+            expr: increase(kube_pod_container_status_restarts_total[10m]) > 3
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} reiniciando demais'
+              description: 'Mais de 3 restarts em 10 minutos.'
+
+          - alert: NodeFilesystemPredictedFull
+            # O predict_linear do modulo 06, agora no Kubernetes.
+            expr: predict_linear(node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"}[1h], 4 * 3600) < 0
+            for: 15m
+            labels:
+              severity: warning
+            annotations:
+              summary: 'Disco de {{ $labels.instance }} deve encher em 4h'
+              description: 'Projecao por regressao linear sobre a ultima hora.'

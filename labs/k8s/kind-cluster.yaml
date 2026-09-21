@@ -1,0 +1,13 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: curso-prometheus
+nodes:
+  - role: control-plane
+    # A imagem e' pinada de proposito. Cada versao do kind so' publica
+    # imagens de node para um punhado de versoes do Kubernetes; se voce
+    # trocar o kind, confira a release dele antes de trocar esta linha.
+    image: kindest/node:v1.37.0
+    extraPortMappings:
+      - containerPort: 30000
+        hostPort: 30000
+        protocol: TCP

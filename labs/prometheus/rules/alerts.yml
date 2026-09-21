@@ -1,0 +1,37 @@
+groups:
+  - name: lab.rules
+    rules:
+      # Sempre dispara. Serve para provar que o caminho
+      # Prometheus -> Alertmanager esta' inteiro.
+      - alert: Watchdog
+        expr: vector(1)
+        labels:
+          severity: none
+        annotations:
+          summary: 'Alerta que sempre dispara, de proposito'
+          description: 'Se este alerta some, o pipeline de alertas parou.'
+
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: 'Target {{ $labels.instance }} fora do ar'
+          description: '{{ $labels.instance }} do job {{ $labels.job }} esta down ha mais de 1 minuto.'
+
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Probe falhando para {{ $labels.instance }}'
+          description: 'O blackbox nao conseguiu validar {{ $labels.instance }} por 2 minutos.'
+
+  - name: lab.recording
+    rules:
+      # Recording rule do modulo 04. O ":" no nome e' a convencao
+      # que marca uma metrica derivada, nao coletada.
+      - record: prometheus_http_requests:rate1m
+        expr: sum(rate(prometheus_http_requests_total[1m])) by (code)
